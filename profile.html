@@ -3,8 +3,9 @@
   <head>
     <link rel="stylesheet" href="navbar.css">
     <link rel="stylesheet" href="profile.css">
+    <script src="profile.js"></script>
   </head>
-  <body>
+  <body onload="displayProfile()">
     <!-- Navigation Bar -->
     <ul>
       <li><a class="active" href="#home">Home</a></li>
@@ -13,11 +14,11 @@
       <li><a href="#about">About</a></li>
     </ul>
 
-    <main>
-      <div class="image-cropper">
+    <main id = "profile">
+      <!-- <div class="image-cropper">
         <span>
           <img src="ryuk.jpeg" alt="profile_photo">
-          
+
         </span>
       </div>
 
@@ -40,7 +41,7 @@
             {30h} ago asked by {Erick} {Luis} replied {4h} ago {12} comments
           </span>
         </p>
-      </div>
+      </div> -->
     </main>
 
   </body>
