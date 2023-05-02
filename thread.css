@@ -1,0 +1,78 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+#post-button {
+  background-color: purple;
+  border-radius: 10%;
+  color: white;
+}
+
+#post-body {
+  font-size: x-large;
+}
+
+#comment-username {
+  font-family: Helvetica;
+  font-size: small;
+  font-style: oblique;
+}
+
+#comment-time {
+  font-family: Helvetica;
+  font-size: x-small;
+}
+
+#comment-body {
+  font-size: medium;
+}
+
+#like {
+  background-image: url('empty_thumbsdown.png');
+  background-size: 15px 15px;
+  height: 20px;
+  width: 20px;
+  background-color: transparent;
+  border-style: none;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+#liked {
+  background-image: url('filled_thumbsdown.png');
+  background-size: 15px 15px;
+  height: 20px;
+  width: 20px;
+  background-color: transparent;
+  border-style: none;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+#unlike {
+  background-image: url('empty_thumbsup.png');
+  background-size: 15px 15px;
+  height: 20px;
+  width: 20px;
+  background-color: transparent;
+  border-style: none;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+#unliked {
+  background-image: url('filled_thumbsup.png');
+  background-size: 15px 15px;
+  height: 20px;
+  width: 20px;
+  background-color: transparent;
+  border-style: none;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.center {
+  margin: auto;
+  width: 50%;
+}
