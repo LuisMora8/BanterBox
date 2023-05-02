@@ -13,3 +13,38 @@ img {
   width: auto;
   margin-left: -35%;
 }
+
+.container {
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.post {
+  width: 100%;
+  border: 1px solid #E5E5E5;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 5px;
+}
+
+.post h2 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.post p {
+  margin: 0;
+  font-size: 14px;
+  color: #666666;
+}
+
+.post a {
+  color: #0079D3;
+  text-decoration: none;
+}
+
+.post a:hover {
+  text-decoration: underline;
+}

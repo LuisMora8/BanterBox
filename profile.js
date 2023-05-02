@@ -12,14 +12,16 @@ function displayProfile() {
     "title": "Where can I get blinker fluid?",
     "posttime": 24,
     "username": "Erick",
-    "numcomments": 2
+    "numcomments": 2,
+    "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nec lorem vel dolor accumsan commodo in eu justo. Nulla facilisi. Fusce ac ex est."
   }
 
   post2 = {
     "title": "What is a for-loop?",
     "posttime": 30,
     "username": "Erick",
-    "numcomments": 20
+    "numcomments": 20,
+    "body": "Phasellus sed risus eu risus dignissim vehicula nec in felis. Sed ultricies, dolor nec commodo tristique, mi sapien volutpat odio, sit amet feugiat libero et nulla."
   }
   
   data = {
@@ -50,12 +52,17 @@ function createProfile(data) {
       profile += `<div>`;
       data.posts.forEach(post => {
         profile = profile + `
+        <div class="post">
+        <h2>${post.title}</h2>
         <p>
-        ${post.title}
         <span>
-          ${post.posttime}h ago   asked by ${post.username}   ${post.numcomments} comments
+          ${post.posttime}h ago | asked by ${post.username} | ${post.numcomments} comments
         </span>
-        </p>`;
+        </p>
+        <p>
+          ${post.body}
+        </p>
+        </div>`;
       });
 
       profile += `</div>`;
