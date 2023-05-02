@@ -1,66 +1,47 @@
-      // Registration table
-function displayProfile() {
-  //var xhttp = new XMLHttpRequest();
-  
-  //xhttp.open("GET",userurl+"/add-courses");
-  //xhttp.onload = function() {
-    //let data = JSON.parse(this.responseText);
-    //createRegistrationTable(data)
-  //};
-  //xhttp.send();'
-  post1 = {
-    "title": "Where can I get blinker fluid?",
-    "posttime": 24,
-    "username": "Erick",
-    "numcomments": 2,
-    "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nec lorem vel dolor accumsan commodo in eu justo. Nulla facilisi. Fusce ac ex est."
-  }
+let BASE = "http://127.0.0.1:5000";
+var userurl = ""
 
-  post2 = {
-    "title": "What is a for-loop?",
-    "posttime": 30,
-    "username": "Erick",
-    "numcomments": 20,
-    "body": "Phasellus sed risus eu risus dignissim vehicula nec in felis. Sed ultricies, dolor nec commodo tristique, mi sapien volutpat odio, sit amet feugiat libero et nulla."
-  }
-  
-  data = {
-    "imgurl": "static/images/ryuk.jpeg",
-    "username": "Ryuk",
-    "posts": [post1,post2]
-  }
-
-  createProfile(data);
+function displayProfile(userid) {
+  var xhttp = new XMLHttpRequest();
+  userurl += BASE + "/" + userid;
+  xhttp.open("GET", userurl+"/profile/");
+  xhttp.onload = function() {
+    let data = JSON.parse(this.responseText);
+    createProfile(data)
+  };
+  xhttp.send();
 }
 
 function createProfile(data) {
+  userdata = data[0]
+  posts = data[1]
     let profile = '';
       // User info
       profile += `
       <div class="image-cropper">
         <span>
-          <img src=${data.imgurl} alt="profile_photo">
+          <img src=${userdata.profile_pic} alt="profile_photo">
         </span>
       </div>`;
       profile += `
       <div>
-        <h2>${data.username}</h2>
+        <h2>${userdata.name}</h2>
         <button>New Post</button>
       </div>`;
 
       // User's posts
       profile += `<div>`;
-      data.posts.forEach(post => {
+      posts.forEach(post => {
         profile = profile + `
         <div class="post">
-        <h2>${post.title}</h2>
+        <h2>${post.post_header}</h2>
         <p>
         <span>
-          ${post.posttime}h ago | asked by ${post.username} | ${post.numcomments} comments
+          ${2}h ago | asked by ${userdata.name} | ${12} comments
         </span>
         </p>
         <p>
-          ${post.body}
+          ${post.post_body}
         </p>
         </div>`;
       });
