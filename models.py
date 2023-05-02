@@ -31,14 +31,15 @@ class Posts(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     post_header = db.Column(db.String)
     post_body = db.Column(db.String)
+    post_pic = db.Column(db.String)
 
-    def __init__(self, numkey,user_id, header, body):
+    def __init__(self, numkey,user_id, header, body, pic):
         super().__init__()
         self.numkey = numkey
         self.user_id = user_id
         self.post_header = header
         self.post_body = body
-
+        self.post_pic = pic
 
 
 
