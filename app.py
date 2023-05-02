@@ -44,17 +44,18 @@ class LikesView(ModelView):
 
 @app.route('/')
 def index():
-    return render_template('profile.html')
+    return render_template('thread.html')
 
 # Driver Code
 if __name__ == '__main__':
+
 # Admin
     with app.app_context():
         #Login.__table__.drop(db.engine)
-        # db.create_all()
-        admin = Admin(app)
-        admin.add_view(UserView(Users, db.session))
-        admin.add_view(PostsView(Posts, db.session))
-        admin.add_view(CommentView(Comments, db.session))
-        admin.add_view(LikesView(Likes, db.session))
+        db.create_all()
+        # admin = Admin(app)
+        # admin.add_view(UserView(Users, db.session))
+        # admin.add_view(PostsView(Posts, db.session))
+        # admin.add_view(CommentView(Comments, db.session))
+        # admin.add_view(LikesView(Likes, db.session))
     app.run(debug=True)

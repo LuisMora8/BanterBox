@@ -25,7 +25,7 @@ function displayProfile() {
   }
   
   data = {
-    "imgurl": "ryuk.jpeg",
+    "imgurl": "static/images/ryuk.jpeg",
     "username": "Ryuk",
     "posts": [post1,post2]
   }

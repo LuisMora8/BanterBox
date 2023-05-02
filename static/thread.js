@@ -24,7 +24,7 @@ function displayThread() {
 
   data = {
     "title": "Where can I buy blinker fluid?",
-    "img": "post-pic.png",
+    "img": "static/images/post-pic.png",
     "alt": "posted picture",
     "body": "Like the title says, where can I buy blinker fluid? My lights stopped working.",
     "username": "Erick",

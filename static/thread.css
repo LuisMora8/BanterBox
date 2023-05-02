@@ -29,7 +29,7 @@ body {
 }
 
 #like {
-  background-image: url('empty_thumbsdown.png');
+  background-image: url('images/empty_thumbsdown.png');
   background-size: 15px 15px;
   height: 20px;
   width: 20px;
@@ -40,7 +40,7 @@ body {
 }
 
 #liked {
-  background-image: url('filled_thumbsdown.png');
+  background-image: url('images/filled_thumbsdown.png');
   background-size: 15px 15px;
   height: 20px;
   width: 20px;
@@ -51,7 +51,7 @@ body {
 }
 
 #unlike {
-  background-image: url('empty_thumbsup.png');
+  background-image: url('images/empty_thumbsup.png');
   background-size: 15px 15px;
   height: 20px;
   width: 20px;
@@ -62,7 +62,7 @@ body {
 }
 
 #unliked {
-  background-image: url('filled_thumbsup.png');
+  background-image: url('images/filled_thumbsup.png');
   background-size: 15px 15px;
   height: 20px;
   width: 20px;

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link rel="stylesheet" href="navbar.css">
-    <link rel="stylesheet" href="profile.css">
-    <script src="profile.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static',filename='navbar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='profile.css') }}">
+    <script src="{{ url_for('static',filename='profile.js') }}"></script>
   </head>
   <body onload="displayProfile()">
     <!-- Navigation Bar -->
@@ -15,33 +15,6 @@
     </ul>
 
     <main class="container" id = "profile">
-      <!-- <div class="image-cropper">
-        <span>
-          <img src="ryuk.jpeg" alt="profile_photo">
-
-        </span>
-      </div>
-
-      <div>
-        <h2>username</h2>
-        <button>New Post</button>
-      </div>
-
-      <h1>Your Posts</h1>
-      <div>
-        <p>
-          Post Title
-          <span>
-            {4h} ago asked by {Erick} {Abel} replied {3h} ago {2} comments
-          </span>
-        </p>
-        <p>
-          Post Title
-          <span>
-            {30h} ago asked by {Erick} {Luis} replied {4h} ago {12} comments
-          </span>
-        </p>
-      </div> -->
     </main>
 
   </body>
