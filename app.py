@@ -44,7 +44,38 @@ class LikesView(ModelView):
 
 @app.route('/')
 def index():
-    return render_template('thread.html')
+    return render_template('profile.html')
+
+""" User Profile """
+@app.route('/<userid>/profile/', methods=['GET', 'POST'])
+def profile(userid):
+    # Find the user by id
+    user = Users.query.filter_by(id=userid).first()
+    # Find all the posts from the user
+    posts = Posts.query.filter_by(user_id=userid).all()
+    # Return as List
+    output = [user_to_dict(user), posts_to_dicts(posts)]
+    print(output)
+    return jsonify(output)
+
+# Convert the user from SQL objects to dictionary (for JSON)
+def user_to_dict(user):
+    output = {}
+    output["id"] = user.id
+    output["name"] = user.name
+    output["profile_pic"] = user.profile_pic
+    return output
+
+# Convert the posts from SQL objects to dictionary (for JSON)
+def posts_to_dicts(posts):
+    output = []
+    for post in posts:
+        p = {}
+        p["user_id"] = post.user_id
+        p["post_header"] = post.post_header
+        p["post_body"] = post.post_body
+        output.append(p)
+    return output
 
 # Driver Code
 if __name__ == '__main__':
