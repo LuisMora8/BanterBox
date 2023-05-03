@@ -48,15 +48,22 @@ class LikesView(ModelView):
 def index():
     return render_template('profile.html')
 
+# outside main because it doesnt load on Erick's computer
+admin = Admin(app)
+admin.add_view(UserView(Users, db.session))
+admin.add_view(PostsView(Posts, db.session))
+admin.add_view(CommentView(Comments, db.session))
+admin.add_view(LikesView(Likes, db.session))
+    # app.run(debug=True)
 # Driver Code
 if __name__ == '__main__':
 # Admin
-    with app.app_context():
+    # with app.app_context():
         #Login.__table__.drop(db.engine)
         # db.create_all()
-        admin = Admin(app)
-        admin.add_view(UserView(Users, db.session))
-        admin.add_view(PostsView(Posts, db.session))
-        admin.add_view(CommentView(Comments, db.session))
-        admin.add_view(LikesView(Likes, db.session))
+    #     admin = Admin(app)
+    #     admin.add_view(UserView(Users, db.session))
+    #     admin.add_view(PostsView(Posts, db.session))
+    #     admin.add_view(CommentView(Comments, db.session))
+    #     admin.add_view(LikesView(Likes, db.session))
     app.run(debug=True)
