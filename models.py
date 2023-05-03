@@ -14,14 +14,15 @@ class Users(db.Model):
     name = db.Column(db.String, nullable=False)
     email = db.Column(db.String,unique=True, nullable=False)
     password = db.Column(db.String,unique = True, nullable=False)
-    # profile_pic = db.Column(db.String)
+    profile_pic = db.Column(db.String)
     
-    def __init__(self, id, name, email, password) :
+    def __init__(self, id, name, email, password, pic) :
         super().__init__()
         self.id = id
         self.name = name
         self.email = email
         self.password = password
+        self.profile_pic = pic
 
 class Posts(db.Model):
     __tablename__ = 'posts'
@@ -30,14 +31,15 @@ class Posts(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     post_header = db.Column(db.String)
     post_body = db.Column(db.String)
+    post_pic = db.Column(db.String)
 
-    def __init__(self, numkey,user_id, header, body):
+    def __init__(self, numkey,user_id, header, body, pic):
         super().__init__()
         self.numkey = numkey
         self.user_id = user_id
         self.post_header = header
         self.post_body = body
-
+        self.post_pic = pic
 
 
 

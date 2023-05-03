@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link rel="stylesheet" href="navbar.css">
-    <link rel="stylesheet" href="thread.css">
-    <script src="thread.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static',filename='navbar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='thread.css') }}">
+    <script src="{{ url_for('static',filename='thread.js') }}"></script>
   </head>
   <body onload="displayThread()">
     <!-- Navigation Bar -->
@@ -15,29 +15,6 @@
     </ul>
 
     <main class="container" id="thread">
-
-      <!-- <div class="center">
-        <h1>Where can I but blinker fluid?</h1>
-        <img src="post-pic.png" alt="post-photo">
-        <p>This is a question?</p>
-
-        <form method="post">
-          <p>Comment as: {{username}}</p>
-          <span>
-            <textarea name="comment-text" id="new-comment" cols="30" rows="10"></textarea>
-            <button id="post-button">POST</button>
-          </span>
-        </form>
-
-          <p id="comment-username">{{username}} <span id="comment-time">20h ago</span></p>
-          <p id="comment-body">this is a silly comment</p>
-          <span>
-            <button id="like"></button>
-            {{likes}}
-            <button id="unlike"></button>
-          </span>
-      </div> -->
-
     </main>
   </body>
 </html>
