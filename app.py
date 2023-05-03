@@ -78,28 +78,38 @@ def posts_to_dicts(posts):
     return output
 
 """ Get Thread / Post Comment """
-@app.route('/<thread_id>/<user_id>/', methods=['GET', 'POST'])
-def displayThreaqd(thread_id, user_id):
+@app.route('/thread<thread_id>/<user_id>/', methods=['GET', 'POST'])
+def displayThread(thread_id, user_id):
     # Find user by id
     user = Users.query.filter_by(id=user_id).first()
     # Find the thread by id
     thread = Posts.query.filter_by(numkey=thread_id).first()
+
+    # Add comment to the Database
+    if request.method == 'POST':
+        # Get last comment numkey
+        all_comments = Comments.query.all()
+        last_comment = all_comments[-1]
+        # Create new comment and to DB
+        new_comment = Comments(last_comment.numkey+1,user.id,thread.numkey, request.json['comment_body'])
+        db.session.add(new_comment)
+        db.session.commit()
+
     # Find all the comments from the thread
     comments = Comments.query.filter_by(post_numkey=thread_id).all()
-    # Return as List
+    # Return data to generate thread
     output = [user_to_dict(user), post_to_dict(thread), comments_to_dicts(comments)]
-    print(output)
     return jsonify(output)
 
 # Convert the post from SQL object to dictionary (for JSON)
 def post_to_dict(post):
-    post = {}
-    post["id"] = post.num_key
-    post["user_id"] = post.user_id
-    post["post_header"] = post.user_id
-    post["post_body"] = post.post_header
-    post["post_pic"] = post.post_body
-    return post
+    p = {}
+    p["id"] = post.numkey
+    p["user_id"] = post.user_id
+    p["post_header"] = post.post_header
+    p["post_body"] = post.post_body
+    p["post_pic"] = post.post_pic
+    return p
 
 # Convert the posts from SQL objects to dictionary (for JSON)
 def comments_to_dicts(comments):
@@ -108,13 +118,13 @@ def comments_to_dicts(comments):
         c = {}
         c["id"] = comment.numkey
         c["user_id"] = comment.users_id
-        c["post_id"] = comment.post_id
+        c["post_id"] = comment.post_numkey
         c["body"] = comment.body
         # Query number of likes
-        likes = Likes.query.filter_by(comment_numkey=comment.post_id).all()
+        likes = Likes.query.filter_by(comment_numkey=comment.numkey).all()
         c["num_likes"] = len(likes)
         # Query user for name
-        user = Users.query.filter_by(id=comment.user_id).first()
+        user = Users.query.filter_by(id=comment.users_id).first()
         c["name"] = user.name
         output.append(c)
     return output

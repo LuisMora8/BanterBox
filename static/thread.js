@@ -1,64 +1,62 @@
 let BASE = "http://127.0.0.1:5000";
 var userurl = ""
 
+// Post a new comment
+function postComment() {
+  thread_id = 102;
+  user_id = 10;
+  var new_comment = new FormData(document.getElementById("post-comment"));
+  var comment_body = new_comment.get("comment-text");
+  const body = {"comment_body": comment_body};
+  var xhttp = new XMLHttpRequest();
+  userurl = BASE + "/" + "thread" + thread_id + "/" + user_id;
+  xhttp.open("POST", userurl);
+  xhttp.setRequestHeader("Content-Type", "application/json");
+  xhttp.onload = function() {
+    let data = JSON.parse(this.responseText);
+  };
+  xhttp.send(JSON.stringify(body));
+}
+
+// Thread ID and User ID is needed to display thread
 function displayThread() {
   thread_id = 102
   user_id = 10
   var xhttp = new XMLHttpRequest();
-  userurl += BASE + "/" + thread_id + "/" + user_id;
+  userurl = BASE + "/" + "thread" + thread_id + "/" + user_id;
   xhttp.open("GET", userurl);
   xhttp.onload = function() {
     let data = JSON.parse(this.responseText);
-    createProfile(data)
+    createThread(data)
   };
   xhttp.send();
-
-  // comment1 = {
-  //   "username": "Luis",
-  //   "time": "20h ago",
-  //   "body": "Bruh you for real?",
-  //   "likes": 5
-  // }
-
-  // comment2 = {
-  //   "username": "Abel",
-  //   "time": "21h ago",
-  //   "body": "Autozone, tell them Abel sent you.",
-  //   "likes": 4
-  // }
-
-  // data = {
-  //   "title": "Where can I buy blinker fluid?",
-  //   "img": "static/images/post-pic.png",
-  //   "alt": "posted picture",
-  //   "body": "Like the title says, where can I buy blinker fluid? My lights stopped working.",
-  //   "username": "Erick",
-  //   "comments": [comment1, comment2]
-  // }
-
-  // createThread(data);
 }
 
+// Input is an array of dictionaries
+// data[0] is the user info
+// post[1] is the post info
+// post[2] is the comments info
 function createThread(data) {
   let user = data[0];
   let post = data[1];
   let comments = data[2];
+  console.log(post.post_header)
 
     let thread = '<div>';
       // Original Post
       thread +=`<div class="post">
-      <h1>${post.header}</h1>`;
+      <h1>${post.post_header}</h1>`;
       if(post.post_pic != "") {
         thread += `<img src=${post.post_pic}></img>`;
       }
-      thread += `<p>${post.body}</p>`;
+      thread += `<p>${post.post_body}</p>`;
 
       // Post A Comment
       thread += `
-        <form method="post">
+        <form id="post-comment">
         <p>Comment as: <span id="comment-username">${user.name}</span></p>
           <textarea name="comment-text" id="new-comment" cols="30" rows="10"></textarea>
-          <button id="post-button">POST</button>
+          <button type="submit" id="post-button" onclick="postComment()">POST</button>
         </form>`;
       thread += `<div>`
 
