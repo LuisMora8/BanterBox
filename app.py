@@ -31,8 +31,8 @@ class PostsView(ModelView):
 class CommentView(ModelView):
     column_display_pk = True
     column_hide_backrefs = False
-    list_columns = ('numkey', 'user_id', 'post_numkey','body')
-    form_columns = ('numkey', 'user_id', 'post_numkey','body')
+    list_columns = ('numkey', 'users_id', 'post_numkey','body')
+    form_columns = ('numkey', 'users_id', 'post_numkey','body')
 
 class LikesView(ModelView):
     column_display_pk = True
@@ -41,7 +41,9 @@ class LikesView(ModelView):
     form_columns = ('id', 'comment_numkey', 'post_numkey')
 
 
-
+# @app.route('/admin')
+# def adminShow():
+#     return redirect('/admin')
 @app.route('/')
 def index():
     return render_template('profile.html')
