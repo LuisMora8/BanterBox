@@ -1,7 +1,7 @@
 let BASE = "http://127.0.0.1:5000";
 var userurl = ""
 
-// Post a new comment
+// Post a New Comment
 function postComment() {
   thread_id = 102;
   user_id = 10;
@@ -32,13 +32,13 @@ function displayThread() {
   xhttp.send();
 }
 
-// Input is an array of dictionaries
-// data[0] is the user info
-// post[1] is the post info
-// post[2] is the comments info
 function createThread(data) {
+  // Input is an array of dictionaries
+  // data[0] is the user info
   let user = data[0];
+  // post[1] is the post info
   let post = data[1];
+  // post[2] is the comments info
   let comments = data[2];
   console.log(post.post_header)
 
@@ -55,7 +55,7 @@ function createThread(data) {
       thread += `
         <form id="post-comment">
         <p>Comment as: <span id="comment-username">${user.name}</span></p>
-          <textarea name="comment-text" id="new-comment" cols="30" rows="10"></textarea>
+          <textarea name="comment-text" id="new-comment" cols="50" rows="5"></textarea>
           <button type="submit" id="post-button" onclick="postComment()">POST</button>
         </form>`;
       thread += `<div>`
