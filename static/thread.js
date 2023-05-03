@@ -1,65 +1,74 @@
-// Registration table
+let BASE = "http://127.0.0.1:5000";
+var userurl = ""
+
+// Post a New Comment
+function postComment() {
+  thread_id = 102;
+  user_id = 10;
+  var new_comment = new FormData(document.getElementById("post-comment"));
+  var comment_body = new_comment.get("comment-text");
+  const body = {"comment_body": comment_body};
+  var xhttp = new XMLHttpRequest();
+  userurl = BASE + "/" + "thread" + thread_id + "/" + user_id;
+  xhttp.open("POST", userurl);
+  xhttp.setRequestHeader("Content-Type", "application/json");
+  xhttp.onload = function() {
+    let data = JSON.parse(this.responseText);
+  };
+  xhttp.send(JSON.stringify(body));
+}
+
+// Thread ID and User ID is needed to display thread
 function displayThread() {
-  //var xhttp = new XMLHttpRequest();
-  
-  //xhttp.open("GET",userurl+"/add-courses");
-  //xhttp.onload = function() {
-    //let data = JSON.parse(this.responseText);
-    //createRegistrationTable(data)
-  //};
-  //xhttp.send();'
-  comment1 = {
-    "username": "Luis",
-    "time": "20h ago",
-    "body": "Bruh you for real?",
-    "likes": 5
-  }
-
-  comment2 = {
-    "username": "Abel",
-    "time": "21h ago",
-    "body": "Autozone, tell them Abel sent you.",
-    "likes": 4
-  }
-
-  data = {
-    "title": "Where can I buy blinker fluid?",
-    "img": "static/images/post-pic.png",
-    "alt": "posted picture",
-    "body": "Like the title says, where can I buy blinker fluid? My lights stopped working.",
-    "username": "Erick",
-    "comments": [comment1, comment2]
-  }
-
-  createThread(data);
+  thread_id = 102
+  user_id = 10
+  var xhttp = new XMLHttpRequest();
+  userurl = BASE + "/" + "thread" + thread_id + "/" + user_id;
+  xhttp.open("GET", userurl);
+  xhttp.onload = function() {
+    let data = JSON.parse(this.responseText);
+    createThread(data)
+  };
+  xhttp.send();
 }
 
 function createThread(data) {
+  // Input is an array of dictionaries
+  // data[0] is the user info
+  let user = data[0];
+  // post[1] is the post info
+  let post = data[1];
+  // post[2] is the comments info
+  let comments = data[2];
+  console.log(post.post_header)
+
     let thread = '<div>';
       // Original Post
       thread +=`<div class="post">
-      <h1>${data.title}</h1>
-      <img src=${data.img} alt${data.alt}>
-      <p>${data.body}</p>`;
+      <h1>${post.post_header}</h1>`;
+      if(post.post_pic != "") {
+        thread += `<img src=${post.post_pic}></img>`;
+      }
+      thread += `<p>${post.post_body}</p>`;
 
       // Post A Comment
       thread += `
-        <form method="post">
-        <p>Comment as: <span id="comment-username">${data.username}</span></p>
-          <textarea name="comment-text" id="new-comment" cols="30" rows="10"></textarea>
-          <button id="post-button">POST</button>
+        <form id="post-comment">
+        <p>Comment as: <span id="comment-username">${user.name}</span></p>
+          <textarea name="comment-text" id="new-comment" cols="50" rows="5"></textarea>
+          <button type="submit" id="post-button" onclick="postComment()">POST</button>
         </form>`;
       thread += `<div>`
 
       // Comments
-      data.comments.forEach(comment => {
+      comments.forEach(comment => {
         thread = thread + `
         <div class=comment>
-          <p id="comment-username">${comment.username} <span id="comment-time">${comment.time}</span></p>
+          <p id="comment-username">${comment.name} <span id="comment-time">2h ago</span></p>
           <p id="comment-body">${comment.body}</p>
           <span>
             <button id="like"></button>
-            ${comment.likes}
+            ${comment.num_likes}
             <button id="unlike"></button>
           </span>
         </div>`;
