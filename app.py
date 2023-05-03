@@ -6,6 +6,8 @@ from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
 from wtforms.widgets import TextArea
 
+from datetime import datetime
+
 # app = Flask(__name__)
 
 BASE = "http://127.0.0.1:5000"
@@ -66,6 +68,7 @@ def user_to_dict(user):
     output["id"] = user.id
     output["name"] = user.name
     output["profile_pic"] = user.profile_pic
+    output["time"] = formatTime(user.time)
     return output
 
 # Convert the posts from SQL objects to dictionary (for JSON)
@@ -76,6 +79,7 @@ def posts_to_dicts(posts):
         p["user_id"] = post.user_id
         p["post_header"] = post.post_header
         p["post_body"] = post.post_body
+        p["time"] = formatTime(post.time)
         output.append(p)
     return output
 
@@ -111,6 +115,7 @@ def post_to_dict(post):
     p["post_header"] = post.post_header
     p["post_body"] = post.post_body
     p["post_pic"] = post.post_pic
+    p["time"] = formatTime(post.time)
     return p
 
 # Convert the posts from SQL objects to dictionary (for JSON)
@@ -122,6 +127,7 @@ def comments_to_dicts(comments, user_id):
         c["user_id"] = comment.users_id
         c["post_id"] = comment.post_numkey
         c["body"] = comment.body
+        c["time"] = formatTime(comment.time)
         # Query number of likes
         likes = Likes.query.filter_by(comment_numkey=comment.numkey).all()
         c["num_likes"] = len(likes)
@@ -157,6 +163,27 @@ def likeComment():
     # Return updated number of likes
     likes = Likes.query.filter_by(comment_numkey=request.json['comment_id']).all()
     return str(len(likes))
+
+# Format time into "- ago"
+def formatTime(time_created):
+    now = datetime.utcnow()
+    delta = now - time_created
+    time = ""
+    # minutes ago
+    if int(delta.total_seconds() > 60):
+        time = int(delta.total_seconds() / 60)
+        return f"{time} minutes ago"
+    # hours ago
+    elif int(delta.total_seconds() >3600):
+        time = int(delta.total_seconds() / 3600)
+        return f"{time} hours ago"
+    # days ago
+    elif int(delta.days > 0):
+        time = int(delta.days > 0)
+        return f"{time} days ago"
+    # just now
+    else:
+        return "just now!"
 
 # outside main because it doesnt load on Erick's computer
 admin = Admin(app)

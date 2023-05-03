@@ -70,6 +70,7 @@ function createThread(data) {
       if(post.post_pic != "") {
         thread += `<img src=${post.post_pic}></img>`;
       }
+      thread += `<p>Asked ${post.time}</p>`;
       thread += `<p>${post.post_body}</p>`;
 
       // Post A Comment
@@ -85,7 +86,7 @@ function createThread(data) {
       comments.forEach(comment => {
         thread += `
         <div class=comment>
-          <p id="comment-username">${comment.name} <span id="comment-time">2h ago</span></p>
+          <p id="comment-username">${comment.name} <span id="comment-time">${comment.time}</span></p>
           <p id="comment-body">${comment.body}</p>
           <span>`;
           
