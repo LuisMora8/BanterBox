@@ -22,17 +22,17 @@ def student_schedule():
     # db.session.add(userAdd3)
     # db.session.commit()
 
-    postAdd =  Posts(102,10,'Blinker Fluid', 'What is blinker fluid?', "static/images/post-pic.png")
-    db.session.add(postAdd)
-    db.session.commit()
+    # postAdd =  Posts(102,10,'Blinker Fluid', 'What is blinker fluid?', "static/images/post-pic.png")
+    # db.session.add(postAdd)
+    # db.session.commit()
     
-    postAdd2 =  Posts(103,20,'For loops','What is a for loop and when do you use it?',"")
-    db.session.add(postAdd2)
-    db.session.commit()
+    # postAdd2 =  Posts(103,20,'For loops','What is a for loop and when do you use it?',"")
+    # db.session.add(postAdd2)
+    # db.session.commit()
 
-    postAdd3 =  Posts(104,30,'C++ coding language','What is C++ and when should I use it?',"")
-    db.session.add(postAdd3)
-    db.session.commit()
+    # postAdd3 =  Posts(104,30,'C++ coding language','What is C++ and when should I use it?',"")
+    # db.session.add(postAdd3)
+    # db.session.commit()
 
     # commentAdd =  Comments(203,20,102,'Blinker fluid is for blinker lights')
     # db.session.add(commentAdd)
@@ -46,24 +46,24 @@ def student_schedule():
     # db.session.add(commentAdd3)
     # db.session.commit()
 
-    # likesAdd =  Likes(303,203,0)
-    # db.session.add(likesAdd)
-    # db.session.commit()
+    likesAdd =  Likes(303,203,0,10)
+    db.session.add(likesAdd)
+    db.session.commit()
 
-    # likesAdd2 =  Likes(304,0,102)
-    # db.session.add(likesAdd2)
-    # db.session.commit()
+    likesAdd2 =  Likes(304,0,102,20)
+    db.session.add(likesAdd2)
+    db.session.commit()
 
-    # likesAdd3 =  Likes(305,0,103)
-    # db.session.add(likesAdd3)
-    # db.session.commit()
+    likesAdd3 =  Likes(305,0,103,30)
+    db.session.add(likesAdd3)
+    db.session.commit()
 
     
     
 
 if __name__ == '__main__':
     with app.app_context():
-        Posts.__table__.drop(db.engine)
+        Likes.__table__.drop(db.engine)
         db.create_all()
         student_schedule()
     app.run(debug=True)

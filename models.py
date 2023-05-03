@@ -67,13 +67,14 @@ class Likes(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     comment_numkey = db.Column(db.Integer, db.ForeignKey('comments.numkey'))
     post_numkey= db.Column(db.Integer, db.ForeignKey('posts.numkey'))
-    
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
-    def __init__(self, id,commentNumkey,postnumkey):
+    def __init__(self, id,commentNumkey,postnumkey,user_id):
         super().__init__()
         self.id = id
         self.comment_numkey = commentNumkey
         self.post_numkey = postnumkey
+        self.user_id = user_id
         
 if __name__ == '__main__':
     db.drop_all()

@@ -1,6 +1,27 @@
 let BASE = "http://127.0.0.1:5000";
 var userurl = ""
 
+// Like a comment
+function likeComment(button, comment_id, user_id) {
+  var xhttp = new XMLHttpRequest();
+  const body = {"comment_id": comment_id, "user_id": user_id};
+  userurl = BASE + "/like-comment";
+
+  if(button.id == "liked") {
+    button.id = "like";
+    xhttp.open("DELETE", userurl);
+  } else {
+    button.id = "liked";
+    xhttp.open("POST", userurl);
+  }
+
+  xhttp.setRequestHeader("Content-Type", "application/json");
+  xhttp.onload = function() {
+    document.getElementById(comment_id).innerHTML = this.responseText;
+  };
+  xhttp.send(JSON.stringify(body));
+}
+
 // Post a New Comment
 function postComment() {
   thread_id = 102;
@@ -62,14 +83,19 @@ function createThread(data) {
 
       // Comments
       comments.forEach(comment => {
-        thread = thread + `
+        thread += `
         <div class=comment>
           <p id="comment-username">${comment.name} <span id="comment-time">2h ago</span></p>
           <p id="comment-body">${comment.body}</p>
-          <span>
-            <button id="like"></button>
-            ${comment.num_likes}
-            <button id="unlike"></button>
+          <span>`;
+          
+        if (comment.liked_by_user) {
+          thread += `<button id="liked" onclick="likeComment(this, ${comment.id}, ${user.id})"></button>`;
+        } else {  
+          thread += `<button id="like" onclick="likeComment(this, ${comment.id}, ${user.id})"></button>`;
+        }
+          thread += 
+            `<span id="${comment.id}">${comment.num_likes}</span>
           </span>
         </div>`;
       });

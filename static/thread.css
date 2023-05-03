@@ -29,28 +29,6 @@ body {
 }
 
 #like {
-  background-image: url('images/empty_thumbsdown.png');
-  background-size: 15px 15px;
-  height: 20px;
-  width: 20px;
-  background-color: transparent;
-  border-style: none;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
-#liked {
-  background-image: url('images/filled_thumbsdown.png');
-  background-size: 15px 15px;
-  height: 20px;
-  width: 20px;
-  background-color: transparent;
-  border-style: none;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
-#unlike {
   background-image: url('images/empty_thumbsup.png');
   background-size: 15px 15px;
   height: 20px;
@@ -61,7 +39,7 @@ body {
   background-size: cover;
 }
 
-#unliked {
+#liked {
   background-image: url('images/filled_thumbsup.png');
   background-size: 15px 15px;
   height: 20px;
