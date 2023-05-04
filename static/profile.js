@@ -4,7 +4,7 @@ var userurl = ""
 function displayProfile(userid) {
   var xhttp = new XMLHttpRequest();
   userurl += BASE + "/" + userid;
-  xhttp.open("GET", userurl+"/profile/");
+  xhttp.open("GET", userurl+ "/profile/" );
   xhttp.onload = function() {
     let data = JSON.parse(this.responseText);
     createProfile(data)

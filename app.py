@@ -48,11 +48,6 @@ def loginShow():
     return render_template('login.html')
 
 
-@app.route('/show')
-def show():
-    print("checking if this works")
-    return render_template('thread.html')
-
 # Login logic
 @app.route('/login/<username>/<password>', methods=['GET'])
 def student(username,password):
@@ -67,18 +62,17 @@ def student(username,password):
             print(password)
             print(passCheck)
             if(password == passCheck):
-                print("this is working")
                 # redirect to user page
-                return redirect(url_for('admin.index'))
+                return password
         elif user.role == 'admin':
             passCheck = str(user.password)
             password =  str(password)
             print(password)
             print(passCheck)
             if(password == passCheck):
-                print("this is working")
+                return password
                 # redirect to Flask-Admin dashboard
-                return redirect(url_for('admin.index'))
+                # return redirect(url_for('admin.index'))
                 
     return render_template('login.html')
 
