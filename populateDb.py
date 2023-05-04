@@ -1,4 +1,4 @@
-from models import Users, Posts, Comments,Likes, app, db
+from models import Users, Posts,Login, Comments,Likes, app, db
 
 def student_schedule():
     #delete database
@@ -9,7 +9,21 @@ def student_schedule():
     # db.session.delete(me)
     # db.session.commit()
 
-    #populate tables
+    # populate tables
+    loginAdd =  Login('erickvargas@gmail.com','pass123','User')
+    db.session.add(loginAdd)
+    db.session.commit()
+
+    loginAdd2 =  Login('abelGetachew@gmail.com','pass456','User')
+    db.session.add(loginAdd2)
+    db.session.commit()
+
+    loginAdd3 =  Login('admin','password1','admin')
+    db.session.add(loginAdd3)
+    db.session.commit()
+
+   
+
     userAdd =  Users(10,'Erick Vargas','ErickVargas@gmail.com','pass123', "static/images/ryuk.jpeg")
     db.session.add(userAdd)
     db.session.commit()
@@ -46,9 +60,9 @@ def student_schedule():
     db.session.add(commentAdd3)
     db.session.commit()
 
-    likesAdd =  Likes(303,203,0,10)
-    db.session.add(likesAdd)
-    db.session.commit()
+    # likesAdd =  Likes(303,203,0,)
+    # db.session.add(likesAdd)
+    # db.session.commit()
 
     likesAdd2 =  Likes(304,0,102,20)
     db.session.add(likesAdd2)
