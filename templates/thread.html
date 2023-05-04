@@ -5,11 +5,11 @@
     <link rel="stylesheet" href="{{ url_for('static',filename='thread.css') }}">
     <script src="{{ url_for('static',filename='thread.js') }}"></script>
   </head>
-  <body onload="displayThread()">
+  <body onload="displayThread({{id}},{{threadId}})">
     <!-- Navigation Bar -->
     <ul>
-      <li><a class="active" href="#home">Home</a></li>
-      <li><a href="#news">News</a></li>
+      <li><a class="active" href="http://127.0.0.1:5000/loginIntoThread/{{id}}">Home</a></li>
+      <li><a href="http://127.0.0.1:5000/loginIntoProfile/{{id}}">profile</a></li>
       <li><a href="#contact">Contact</a></li>
       <li><a href="#about">About</a></li>
     </ul>

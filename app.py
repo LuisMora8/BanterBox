@@ -24,6 +24,12 @@ class UserView(ModelView):
     list_columns = ('id', 'name', 'email', 'password')
     form_columns = ('id', 'name', 'email', 'password')
 
+class LoginView(ModelView):
+    column_display_pk = True
+    column_hide_backrefs = False
+    list_columns = ('username', 'password', 'role')
+    form_columns = ('username', 'password', 'role')
+
 class PostsView(ModelView):
     column_display_pk = True
     column_hide_backrefs = False
@@ -44,27 +50,46 @@ class LikesView(ModelView):
 
 
 #render login page
-@app.route('/login')
-def loginShow():
-    return render_template('login.html')
+# @app.route('/login')
+# def loginShow():
+#     return render_template('login.html')
 
+@app.route('/loginIntoProfile/<id>')
+def loginIntoProfile(id):
+    print("profile works")
+    address = "thread"
+    return render_template('profile.html', id = id)
+
+@app.route('/loginIntoThread/<id>')
+def loginIntoThread(id):
+    print("thread works")
+    address = "thread"
+    threadId = Posts.query.filter_by(user_id = id).first()
+    return render_template('thread.html', id = id, threadId = threadId.numkey)
 
 # Login logic
 @app.route('/login/<username>/<password>', methods=['GET'])
 def student(username,password):
     user = Login.query.filter_by(username=username).first()
-
+    Userid = Users.query.filter_by(email = username).first()
     if(request.method == 'GET'):
         address = BASE+'/'+user.role+'/'+user.password
         print(address)
         if user.role == 'User':
             passCheck = str(user.password)
             password =  str(password)
+            print(username)
             print(password)
             print(passCheck)
+            print("this is user")
             if(password == passCheck):
+                id = str(Userid.id)
+                
+                print("password is correct")
                 # redirect to user page
-                return password
+                return id
+            else:
+                print("invalid")
         elif user.role == 'admin':
             passCheck = str(user.password)
             password =  str(password)
@@ -74,12 +99,13 @@ def student(username,password):
                 return password
                 # redirect to Flask-Admin dashboard
                 # return redirect(url_for('admin.index'))
+            
                 
     return render_template('login.html')
 
 @app.route('/')
 def index():
-    return render_template('thread.html')
+    return render_template('login.html')
 
 """ Get User Profile """
 @app.route('/<userid>/profile/', methods=['GET', 'POST'])
@@ -219,6 +245,7 @@ def formatTime(time_created):
 # outside main because it doesnt load on Erick's computer
 admin = Admin(app)
 admin.add_view(UserView(Users, db.session))
+admin.add_view(LoginView(Login, db.session))
 admin.add_view(PostsView(Posts, db.session))
 admin.add_view(CommentView(Comments, db.session))
 admin.add_view(LikesView(Likes, db.session))
