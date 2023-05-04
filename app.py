@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify
 from flask_sqlalchemy import SQLAlchemy
-from models import Users, Comments, Posts, Likes, app, db
+from models import Users, Comments, Posts, Likes, Login, app, db
 
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
@@ -40,10 +40,82 @@ class LikesView(ModelView):
     list_columns = ('id', 'comment_numkey', 'post_numkey')
     form_columns = ('id', 'comment_numkey', 'post_numkey')
 
+#render login page
+@app.route('/login')
+def loginShow():
+    return render_template('login.html')
 
-# @app.route('/admin')
-# def adminShow():
-#     return redirect('/admin')
+
+@app.route('/show')
+def show():
+    print("checking if this works")
+    return render_template('thread.html')
+
+# Login logic
+@app.route('/login/<username>/<password>', methods=['GET'])
+def student(username,password):
+    user = Login.query.filter_by(username=username).first()
+
+    if(request.method == 'GET'):
+        address = BASE+'/'+user.role+'/'+user.password
+        print(address)
+        if user.role == 'User':
+            passCheck = str(user.password)
+            password =  str(password)
+            print(password)
+            print(passCheck)
+            if(password == passCheck):
+                print("this is working")
+                # redirect to user page
+                return redirect(url_for('admin.index'))
+        elif user.role == 'admin':
+            passCheck = str(user.password)
+            password =  str(password)
+            print(password)
+            print(passCheck)
+            if(password == passCheck):
+                print("this is working")
+                # redirect to Flask-Admin dashboard
+                return redirect(url_for('admin.index'))
+                
+    return render_template('login.html')
+
+# @app.route('/show')
+# def show():
+#     print("checking if this works")
+#     return render_template('thread.html')
+
+
+# # Login logic
+# @app.route('/login/<username>/<password>', methods=['GET'])
+# def student(username,password):
+#     user = Login.query.filter_by(username=username).first()
+
+#     if(request.method == 'GET'):
+#         address = BASE+'/'+user.role+'/'+user.password
+#         print(address)
+#         if user.role == 'User':
+#             passCheck = str(user.password)
+#             password =  str(password)
+#             print(password)
+#             print(passCheck)
+#             if(password == passCheck):
+#                 print("this is working")
+#                 #redirect to users page
+#                 return redirect(url_for('admin.index'))
+#         elif user.role == 'admin':
+#             passCheck = str(user.password)
+#             password =  str(password)
+#             print(password)
+#             print(passCheck)
+#             if(password == passCheck):
+#                 print("this is working")
+#                 return redirect(url_for('show'))
+#                 # return render_template("thread.html")
+#             print(address)
+#             # return redirect('/login')
+        
+
 @app.route('/')
 def index():
     return render_template('thread.html')

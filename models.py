@@ -42,6 +42,23 @@ class Posts(db.Model):
         self.post_pic = pic
 
 
+class Login(db.Model):
+    __tablename__ = 'login'
+
+    username = db.Column(db.String, unique=True, nullable=False, primary_key=True)
+    password = db.Column(db.String, nullable=False)
+    role = db.Column(db.String, nullable=False)
+    # student_id = db.Column(db.Integer, db.ForeignKey('students.id'))
+    # student = db.relationship('Students', backref=db.backref('user'))
+    # professor_id = db.Column(db.Integer, db.ForeignKey('professor.id'))
+    # professor = db.relationship('Professor', backref=db.backref('teacher'))
+
+    def __init__(self, username, password, role) :
+        super().__init__()
+        self.username = username
+        self.password = password
+        self.role = role
+        # self.student = student
 
 
 
@@ -76,5 +93,5 @@ class Likes(db.Model):
         self.post_numkey = postnumkey
         
 if __name__ == '__main__':
-    db.drop_all()
+    # db.drop_all()
     db.create_all()

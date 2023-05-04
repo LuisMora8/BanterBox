@@ -1,4 +1,4 @@
-from models import Users, Posts, Comments,Likes, app, db
+from models import Users, Posts, Comments,Likes,Login, app, db
 
 def student_schedule():
     #delete database
@@ -10,6 +10,20 @@ def student_schedule():
     # db.session.commit()
 
     # populate tables
+    loginAdd =  Login('erickvargas@gmail.com','pass123','User')
+    db.session.add(loginAdd)
+    db.session.commit()
+
+    # loginAdd2 =  Login('abelGetachew@gmail.com','pass456','User')
+    # db.session.add(loginAdd2)
+    # db.session.commit()
+
+    # loginAdd3 =  Login('admin','password1','admin')
+    # db.session.add(loginAdd3)
+    # db.session.commit()
+
+   
+
     # userAdd =  Users(10,'Erick Vargas','ErickVargas@gmail.com','pass123', "static/images/ryuk.jpeg")
     # db.session.add(userAdd)
     # db.session.commit()
@@ -22,17 +36,17 @@ def student_schedule():
     # db.session.add(userAdd3)
     # db.session.commit()
 
-    postAdd =  Posts(102,10,'Blinker Fluid', 'What is blinker fluid?', "static/images/post-pic.png")
-    db.session.add(postAdd)
-    db.session.commit()
+    # postAdd =  Posts(102,10,'Blinker Fluid', 'What is blinker fluid?', "static/images/post-pic.png")
+    # db.session.add(postAdd)
+    # db.session.commit()
     
-    postAdd2 =  Posts(103,20,'For loops','What is a for loop and when do you use it?',"")
-    db.session.add(postAdd2)
-    db.session.commit()
+    # postAdd2 =  Posts(103,20,'For loops','What is a for loop and when do you use it?',"")
+    # db.session.add(postAdd2)
+    # db.session.commit()
 
-    postAdd3 =  Posts(104,30,'C++ coding language','What is C++ and when should I use it?',"")
-    db.session.add(postAdd3)
-    db.session.commit()
+    # postAdd3 =  Posts(104,30,'C++ coding language','What is C++ and when should I use it?',"")
+    # db.session.add(postAdd3)
+    # db.session.commit()
 
     # commentAdd =  Comments(203,20,102,'Blinker fluid is for blinker lights')
     # db.session.add(commentAdd)
@@ -63,8 +77,8 @@ def student_schedule():
 
 if __name__ == '__main__':
     with app.app_context():
-        Posts.__table__.drop(db.engine)
-        db.create_all()
+        # Posts.__table__.drop(db.engine)
+        # db.create_all()
         student_schedule()
     app.run(debug=True)
     
