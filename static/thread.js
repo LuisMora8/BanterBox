@@ -40,9 +40,9 @@ function postComment() {
 }
 
 // Thread ID and User ID is needed to display thread
-function displayThread() {
-  thread_id = 102
-  user_id = 10
+function displayThread(id,threadId) {
+  thread_id = threadId
+  user_id = id
   var xhttp = new XMLHttpRequest();
   userurl = BASE + "/" + "thread" + thread_id + "/" + user_id;
   xhttp.open("GET", userurl);
