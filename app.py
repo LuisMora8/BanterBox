@@ -6,6 +6,8 @@ from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
 from wtforms.widgets import TextArea
 
+from datetime import datetime
+
 # app = Flask(__name__)
 
 BASE = "http://127.0.0.1:5000"
@@ -138,6 +140,7 @@ def user_to_dict(user):
     output["id"] = user.id
     output["name"] = user.name
     output["profile_pic"] = user.profile_pic
+    output["time"] = formatTime(user.time)
     return output
 
 # Convert the posts from SQL objects to dictionary (for JSON)
@@ -148,6 +151,7 @@ def posts_to_dicts(posts):
         p["user_id"] = post.user_id
         p["post_header"] = post.post_header
         p["post_body"] = post.post_body
+        p["time"] = formatTime(post.time)
         output.append(p)
     return output
 
@@ -172,7 +176,7 @@ def displayThread(thread_id, user_id):
     # Find all the comments from the thread
     comments = Comments.query.filter_by(post_numkey=thread_id).all()
     # Return data to generate thread
-    output = [user_to_dict(user), post_to_dict(thread), comments_to_dicts(comments)]
+    output = [user_to_dict(user), post_to_dict(thread), comments_to_dicts(comments, user_id)]
     return jsonify(output)
 
 # Convert the post from SQL object to dictionary (for JSON)
@@ -183,10 +187,11 @@ def post_to_dict(post):
     p["post_header"] = post.post_header
     p["post_body"] = post.post_body
     p["post_pic"] = post.post_pic
+    p["time"] = formatTime(post.time)
     return p
 
 # Convert the posts from SQL objects to dictionary (for JSON)
-def comments_to_dicts(comments):
+def comments_to_dicts(comments, user_id):
     output = []
     for comment in comments:
         c = {}
@@ -194,14 +199,63 @@ def comments_to_dicts(comments):
         c["user_id"] = comment.users_id
         c["post_id"] = comment.post_numkey
         c["body"] = comment.body
+        c["time"] = formatTime(comment.time)
         # Query number of likes
         likes = Likes.query.filter_by(comment_numkey=comment.numkey).all()
         c["num_likes"] = len(likes)
         # Query user for name
         user = Users.query.filter_by(id=comment.users_id).first()
         c["name"] = user.name
+        # Query if user has liked this comment
+        if Likes.query.filter_by(comment_numkey=comment.numkey, user_id=user_id).first() == None:
+            c["liked_by_user"] = False
+        else:
+            c["liked_by_user"] = True
         output.append(c)
     return output
+
+""" Like/Unlike a Comment """
+@app.route('/like-comment', methods=['POST', 'DELETE'])
+def likeComment():
+    if request.method=='POST':
+        # Get last like id
+        all_likes = Likes.query.all()
+        if len(all_likes) > 0:
+            last_like = all_likes[-1]
+            new_like = Likes(last_like.id+1, request.json['comment_id'], 0, request.json['user_id'])
+        else:
+            new_like = Likes(301, request.json['comment_id'], 0, request.json['user_id'])
+        db.session.add(new_like)
+    elif request.method=='DELETE':
+        # Get like
+        old_like = Likes.query.filter_by(comment_numkey=request.json['comment_id'], user_id=request.json['user_id']).first()
+        db.session.delete(old_like)
+    
+    db.session.commit()
+    # Return updated number of likes
+    likes = Likes.query.filter_by(comment_numkey=request.json['comment_id']).all()
+    return str(len(likes))
+
+# Format time into "- ago"
+def formatTime(time_created):
+    now = datetime.utcnow()
+    delta = now - time_created
+    time = ""
+    # minutes ago
+    if int(delta.total_seconds() > 60):
+        time = int(delta.total_seconds() / 60)
+        return f"{time} minutes ago"
+    # hours ago
+    elif int(delta.total_seconds() >3600):
+        time = int(delta.total_seconds() / 3600)
+        return f"{time} hours ago"
+    # days ago
+    elif int(delta.days > 0):
+        time = int(delta.days > 0)
+        return f"{time} days ago"
+    # just now
+    else:
+        return "just now!"
 
 # outside main because it doesnt load on Erick's computer
 admin = Admin(app)

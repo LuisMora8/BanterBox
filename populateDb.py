@@ -64,13 +64,13 @@ def student_schedule():
     # db.session.add(likesAdd)
     # db.session.commit()
 
-    # likesAdd2 =  Likes(304,0,102)
-    # db.session.add(likesAdd2)
-    # db.session.commit()
+    likesAdd2 =  Likes(304,0,102,20)
+    db.session.add(likesAdd2)
+    db.session.commit()
 
-    # likesAdd3 =  Likes(305,0,103)
-    # db.session.add(likesAdd3)
-    # db.session.commit()
+    likesAdd3 =  Likes(305,0,103,30)
+    db.session.add(likesAdd3)
+    db.session.commit()
 
     
     

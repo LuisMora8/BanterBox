@@ -26,6 +26,7 @@ function createProfile(data) {
       profile += `
       <div>
         <h2>${userdata.name}</h2>
+        <p>Member since: ${userdata.time}</p>
         <button>New Post</button>
       </div>`;
 
@@ -37,7 +38,7 @@ function createProfile(data) {
         <h2>${post.post_header}</h2>
         <p>
         <span>
-          ${2}h ago | asked by ${userdata.name} | ${12} comments
+          ${post.time} | asked by ${userdata.name} | ${12} comments
         </span>
         </p>
         <p>

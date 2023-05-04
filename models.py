@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
 
 # Flask and SQLDatabase configuaration
 app = Flask(__name__)
@@ -15,6 +16,7 @@ class Users(db.Model):
     email = db.Column(db.String,unique=True, nullable=False)
     password = db.Column(db.String,unique = True, nullable=False)
     profile_pic = db.Column(db.String)
+    time = db.Column(db.DateTime)
     
     def __init__(self, id, name, email, password, pic) :
         super().__init__()
@@ -23,6 +25,7 @@ class Users(db.Model):
         self.email = email
         self.password = password
         self.profile_pic = pic
+        self.time = datetime.utcnow()
 
 class Posts(db.Model):
     __tablename__ = 'posts'
@@ -32,6 +35,7 @@ class Posts(db.Model):
     post_header = db.Column(db.String)
     post_body = db.Column(db.String)
     post_pic = db.Column(db.String)
+    time = db.Column(db.DateTime)
 
     def __init__(self, numkey,user_id, header, body, pic):
         super().__init__()
@@ -61,6 +65,7 @@ class Login(db.Model):
         # self.student = student
 
 
+        self.time = datetime.utcnow()
 
 class Comments(db.Model):
     __tablename__ = 'comments'
@@ -69,7 +74,8 @@ class Comments(db.Model):
     users_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     post_numkey = db.Column(db.Integer, db.ForeignKey('posts.numkey'))
     body = db.Column(db.String)
-    
+    time = db.Column()
+    time = db.Column(db.DateTime)
 
     def __init__(self, numkey,userid,post_numkey, body) :
         super().__init__()
@@ -77,6 +83,7 @@ class Comments(db.Model):
         self.users_id=userid
         self.post_numkey = post_numkey
         self.body = body
+        self.time = datetime.utcnow()
 
 class Likes(db.Model):
     __tablename__ = 'likes'
@@ -84,13 +91,16 @@ class Likes(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     comment_numkey = db.Column(db.Integer, db.ForeignKey('comments.numkey'))
     post_numkey= db.Column(db.Integer, db.ForeignKey('posts.numkey'))
-    
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    time = db.Column(db.DateTime)
 
-    def __init__(self, id,commentNumkey,postnumkey):
+    def __init__(self, id,commentNumkey,postnumkey,user_id):
         super().__init__()
         self.id = id
         self.comment_numkey = commentNumkey
         self.post_numkey = postnumkey
+        self.user_id = user_id
+        self.time = datetime.utcnow()
         
 if __name__ == '__main__':
     # db.drop_all()
