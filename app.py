@@ -7,7 +7,8 @@ from flask_admin.contrib.sqla import ModelView
 from wtforms.widgets import TextArea
 
 from datetime import datetime
-
+from flask_bcrypt import Bcrypt
+bcrypt = Bcrypt(app)
 # app = Flask(__name__)
 
 BASE = "http://127.0.0.1:5000"
@@ -49,10 +50,6 @@ class LikesView(ModelView):
     form_columns = ('id', 'comment_numkey', 'post_numkey')
 
 
-#render login page
-# @app.route('/login')
-# def loginShow():
-#     return render_template('login.html')
 
 @app.route('/loginIntoProfile/<id>')
 def loginIntoProfile(id):
