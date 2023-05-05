@@ -10,7 +10,7 @@ from datetime import datetime
 
 # app = Flask(__name__)
 
-BASE = "http://127.0.0.1:5000"
+BASE = "banter-box.herokuapp.com"
 
 # Admin Subclasses
 class ChildView(ModelView):

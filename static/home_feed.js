@@ -1,4 +1,4 @@
-let BASE = "http://127.0.0.1:5000";
+let BASE = "banter-box.herokuapp.com";
 var userurl = ""
 
 function createThread(user_id) {
