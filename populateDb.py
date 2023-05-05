@@ -28,7 +28,7 @@ def student_schedule():
     db.session.add(userAdd)
     db.session.commit()
 
-    userAdd2 =  Users(20,'Able Getachew','AbleGetachew@gmail.com','pass456', "static/images/ryuk.jpeg")
+    userAdd2 =  Users(20,'Abel Getacgew','AbelGetachew@gmail.com','pass456', "static/images/ryuk.jpeg")
     db.session.add(userAdd2)
     db.session.commit()
 
