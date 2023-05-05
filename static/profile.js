@@ -1,6 +1,12 @@
 let BASE = "http://127.0.0.1:5000";
 var userurl = ""
 
+function createThread(user_id) {
+  userurl = BASE+"/createThread/"+user_id;
+  console.log(userurl);
+  window.location.href = userurl;
+}
+
 function goToThread(thread_id, user_id) {
   userurl = BASE+"/userOpenThread/"+thread_id+"/"+user_id+"/";
   console.log(userurl);
@@ -24,17 +30,21 @@ function createProfile(data) {
     let profile = '';
       // User info
       profile += `
-      <div class="image-cropper">
+      <center><div class="image-cropper">
         <span>
-          <img src="/${userdata.profile_pic}" alt="profile_photo">
+          <img src="/static/images/${userdata.profile_pic}" alt="profile_photo">
         </span>
       </div>`;
       profile += `
       <div>
         <h2>${userdata.name}</h2>
         <p>Member since: ${userdata.time}</p>
-        <button>New Post</button>
-      </div>`;
+      </div></center>`;
+      // Create Post
+      profile += `
+      <div>
+        <button onclick="createThread(${userdata.id})">New Post!</button>
+      </div>`
 
       profile += `<div>`;
       // User's posts

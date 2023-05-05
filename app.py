@@ -140,6 +140,9 @@ def posts_to_dicts(posts):
         p = {}
         p["id"] = post.numkey
         p["user_id"] = post.user_id
+        # Query user name
+        name = Users.query.filter_by(id=post.user_id).first().name
+        p["name"] = name
         p["post_header"] = post.post_header
         p["post_body"] = post.post_body
         p["time"] = formatTime(post.time)
@@ -175,6 +178,9 @@ def post_to_dict(post):
     p = {}
     p["id"] = post.numkey
     p["user_id"] = post.user_id
+    # Query user name
+    name = Users.query.filter_by(id=post.user_id).first().name
+    p["name"] = name
     p["post_header"] = post.post_header
     p["post_body"] = post.post_body
     p["post_pic"] = post.post_pic
@@ -255,6 +261,34 @@ def loadPosts(user_id):
     home_posts = Posts.query.all()
     # Return data to generate home page
     return posts_to_dicts(home_posts)
+
+""" Open Create Thread Page """
+@app.route('/createThread/<user_id>')
+def openCreateThread(user_id):
+    return render_template("create_thread.html", id = user_id)
+
+""" Upload Photo and Create Post """
+@app.route('/upload', methods=['POST'])
+def createPost():
+    # Handle Photo
+    if 'file' not in request.files:
+        print("No file found in request")
+    else:
+        file = request.files['file']
+        file_name = 'static/images/' + request.form['pic_name']
+        file.save(file_name)
+        print("File saved successfully")
+
+    # Query last post for numkey and create new Post
+    all_posts = Posts.query.all()
+    last_post = all_posts[-1] 
+    new_post = Posts(last_post.numkey+1, request.form['user_id'], request.form['header'], request.form['body'], request.form['pic_name'])
+    db.session.add(new_post)
+    db.session.commit()
+    # Return url for new post
+    route = '/userOpenThread/'+ str(last_post.numkey+1) + '/' + str(request.form['user_id'])
+    return route
+    
 
 # outside main because it doesnt load on Erick's computer
 admin = Admin(app)
