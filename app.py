@@ -60,12 +60,11 @@ def loginIntoProfile(id):
     address = "thread"
     return render_template('profile.html', id = id)
 
-@app.route('/loginIntoThread/<id>')
+@app.route('/loginIntoHome/<id>')
 def loginIntoThread(id):
-    print("thread works")
+    print("home works")
     address = "thread"
-    threadId = Posts.query.filter_by(user_id = id).first()
-    return render_template('thread.html', id = id, threadId = threadId.numkey)
+    return render_template('home_feed.html', id = id)
 
 @app.route('/userOpenThread/<thread_id>/<user_id>/')
 def openThread(thread_id, user_id):
@@ -248,6 +247,14 @@ def formatTime(time_created):
     # just now
     else:
         return "just now!"
+    
+""" Load Home Page with all Posts """
+@app.route('/home/<user_id>', methods=['GET'])
+def loadPosts(user_id):
+    # Query all posts
+    home_posts = Posts.query.all()
+    # Return data to generate home page
+    return posts_to_dicts(home_posts)
 
 # outside main because it doesnt load on Erick's computer
 admin = Admin(app)

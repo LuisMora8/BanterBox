@@ -16,7 +16,7 @@ function auth_login() {
 	   }
      //this is to open users thread page
      else{
-		    document.loggedin.action = BASE+'/loginIntoThread/'+data
+		    document.loggedin.action = BASE+'/loginIntoHome/'+data
         // window.alert(document.loggedin.action)
 		    document.loggedin.submit();
 	   }
