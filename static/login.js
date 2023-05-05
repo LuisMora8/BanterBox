@@ -4,7 +4,7 @@ function auth_login() {
 	username=document.getElementById("email").value
   password = document.getElementById("password").value
 	var xhttp = new XMLHttpRequest();
-	console.log(BASE+'/'+username+'/'+password)
+	console.log(BASE+'/'+username+'/'+password);
   xhttp.open("GET", BASE+'/login/'+username+'/'+password);
   xhttp.onload = function() {
      let data = this.responseText;

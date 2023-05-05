@@ -68,7 +68,8 @@ function createThread(data) {
       thread +=`<div class="post">
       <h1>${post.post_header}</h1>`;
       if(post.post_pic != "") {
-        thread += `<img src=${post.post_pic}></img>`;
+        console.log(post.post_pic);
+        thread += `<img src=/${post.post_pic}></img>`;
       }
       thread += `<p>Asked ${post.time}</p>`;
       thread += `<p>${post.post_body}</p>`;

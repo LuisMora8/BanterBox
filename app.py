@@ -21,8 +21,8 @@ class ChildView(ModelView):
 class UserView(ModelView):
     column_display_pk = True
     column_hide_backrefs = False
-    list_columns = ('id', 'name', 'email', 'password')
-    form_columns = ('id', 'name', 'email', 'password')
+    list_columns = ('id', 'name', 'email', 'password', 'profile_pic', 'time')
+    form_columns = ('id', 'name', 'email', 'password', 'profile_pic', 'time')
 
 class LoginView(ModelView):
     column_display_pk = True
@@ -33,20 +33,20 @@ class LoginView(ModelView):
 class PostsView(ModelView):
     column_display_pk = True
     column_hide_backrefs = False
-    list_columns = ('numkey', 'user_id', 'post_header','post_body')
-    form_columns = ('numkey', 'user_id', 'post_header','post_body')
+    list_columns = ('numkey', 'user_id', 'post_header','post_body', 'post_pic', 'time')
+    form_columns = ('numkey', 'user_id', 'post_header','post_body', 'post_pic', 'time')
 
 class CommentView(ModelView):
     column_display_pk = True
     column_hide_backrefs = False
-    list_columns = ('numkey', 'users_id', 'post_numkey','body')
-    form_columns = ('numkey', 'users_id', 'post_numkey','body')
+    list_columns = ('numkey', 'users_id', 'post_numkey','body', 'time')
+    form_columns = ('numkey', 'users_id', 'post_numkey','body', 'time')
 
 class LikesView(ModelView):
     column_display_pk = True
     column_hide_backrefs = False
-    list_columns = ('id', 'comment_numkey', 'post_numkey')
-    form_columns = ('id', 'comment_numkey', 'post_numkey')
+    list_columns = ('id', 'comment_numkey', 'post_numkey', 'time')
+    form_columns = ('id', 'comment_numkey', 'post_numkey', 'time')
 
 
 #render login page
@@ -66,6 +66,12 @@ def loginIntoThread(id):
     address = "thread"
     threadId = Posts.query.filter_by(user_id = id).first()
     return render_template('thread.html', id = id, threadId = threadId.numkey)
+
+@app.route('/userOpenThread/<thread_id>/<user_id>/')
+def openThread(thread_id, user_id):
+    print(thread_id)
+    print(user_id)
+    return render_template('thread.html', id = user_id, threadId = thread_id)
 
 # Login logic
 @app.route('/login/<username>/<password>', methods=['GET'])
@@ -133,6 +139,7 @@ def posts_to_dicts(posts):
     output = []
     for post in posts:
         p = {}
+        p["id"] = post.numkey
         p["user_id"] = post.user_id
         p["post_header"] = post.post_header
         p["post_body"] = post.post_body
@@ -227,7 +234,7 @@ def formatTime(time_created):
     delta = now - time_created
     time = ""
     # minutes ago
-    if int(delta.total_seconds() > 60):
+    if int(delta.total_seconds() > 60 and delta.total_seconds() < 3600):
         time = int(delta.total_seconds() / 60)
         return f"{time} minutes ago"
     # hours ago
