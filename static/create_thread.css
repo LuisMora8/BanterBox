@@ -1,12 +1,4 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-    <title>Create Thread </title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        body {
+    body {
             margin: 0;
             padding: 0;
             font-family: Arial, sans-serif;
@@ -72,31 +64,3 @@
         input[type="submit"]:hover {
             background-color: #005EA2;
         }
-    </style>
-
-    <header>
-        <h1>Banter Box</h1>
-    </header>
-
-    <p> &nbsp;</p>
-    
-<body>
-   <center>  <form action="#">
-        <label for="title">Title:</label>
-        <input type="text" id="title" name="title" required>
-        <label for="message">Message:</label>
-        <textarea id="message" name="message" rows="5" required></textarea>
-        <input type="submit" value="Submit">
-        <p> &nbsp;</p>
-        <label for="avatar">UPLOAD A PICTURE: (PNG/JPEG) </label>
-        <input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg">
-    </form> </center> 
-
-    <!--    USE id: avatar for uploading picture-->
-</body>
-
-<footer>
-    <p> CSE 106 Final Project by: Luis, Erick, Abel </p>
-</footer>
-
-</html>

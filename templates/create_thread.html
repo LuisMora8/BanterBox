@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Create Thread </title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static',filename='create_thread.css') }}">
+    <script src="{{ url_for('static',filename='create_thread.js') }}"></script>
+    <header>
+        <h1>Banter Box</h1>
+    </header>
+  </head>
+    <p> &nbsp;</p>
+    
+<body>
+    <center>
+    <form id="new_post" name="new_post" action="#">
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" required>
+        <label for="message">Message:</label>
+        <textarea id="message" name="message" rows="5" required></textarea>
+        <button type="button" onclick="postThread({{id}})">Post</button>
+        <p> &nbsp;</p>
+        <label for="avatar">UPLOAD A PICTURE: (PNG/JPEG) </label>
+        <input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg">
+     </form>     
+    </center>
+    <!--    USE id: avatar for uploading picture-->
+</body>
+
+<footer>
+    <p> CSE 106 Final Project by: Luis, Erick, Abel </p>
+</footer>
+</html>

@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <title>BanterBox</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static',filename='navbar.css') }}">
     <link rel="stylesheet" href="{{ url_for('static',filename='thread.css') }}">
     <script src="{{ url_for('static',filename='thread.js') }}"></script>
@@ -8,10 +11,9 @@
   <body onload="displayThread({{id}},{{threadId}})">
     <!-- Navigation Bar -->
     <ul>
-      <li><a class="active" href="http://127.0.0.1:5000/loginIntoThread/{{id}}">Home</a></li>
-      <li><a href="http://127.0.0.1:5000/loginIntoProfile/{{id}}">profile</a></li>
-      <li><a href="#contact">Contact</a></li>
-      <li><a href="#about">About</a></li>
+      <li><a href="http://127.0.0.1:5000/loginIntoHome/{{id}}">Home</a></li>
+      <li><a href="http://127.0.0.1:5000/loginIntoProfile/{{id}}">Profile</a></li>
+      <li><a class="logout" href="http://127.0.0.1:5000">Logout</a></li>
     </ul>
 
     <main class="container" id="thread">

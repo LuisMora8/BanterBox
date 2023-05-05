@@ -22,8 +22,8 @@ class ChildView(ModelView):
 class UserView(ModelView):
     column_display_pk = True
     column_hide_backrefs = False
-    list_columns = ('id', 'name', 'email', 'password')
-    form_columns = ('id', 'name', 'email', 'password')
+    list_columns = ('id', 'name', 'email', 'password', 'profile_pic', 'time')
+    form_columns = ('id', 'name', 'email', 'password', 'profile_pic', 'time')
 
 class LoginView(ModelView):
     column_display_pk = True
@@ -34,20 +34,20 @@ class LoginView(ModelView):
 class PostsView(ModelView):
     column_display_pk = True
     column_hide_backrefs = False
-    list_columns = ('numkey', 'user_id', 'post_header','post_body')
-    form_columns = ('numkey', 'user_id', 'post_header','post_body')
+    list_columns = ('numkey', 'user_id', 'post_header','post_body', 'post_pic', 'time')
+    form_columns = ('numkey', 'user_id', 'post_header','post_body', 'post_pic', 'time')
 
 class CommentView(ModelView):
     column_display_pk = True
     column_hide_backrefs = False
-    list_columns = ('numkey', 'users_id', 'post_numkey','body')
-    form_columns = ('numkey', 'users_id', 'post_numkey','body')
+    list_columns = ('numkey', 'users_id', 'post_numkey','body', 'time')
+    form_columns = ('numkey', 'users_id', 'post_numkey','body', 'time')
 
 class LikesView(ModelView):
     column_display_pk = True
     column_hide_backrefs = False
-    list_columns = ('id', 'comment_numkey', 'post_numkey')
-    form_columns = ('id', 'comment_numkey', 'post_numkey')
+    list_columns = ('id', 'comment_numkey', 'post_numkey', 'time')
+    form_columns = ('id', 'comment_numkey', 'post_numkey', 'time')
 
 
 
@@ -57,12 +57,17 @@ def loginIntoProfile(id):
     address = "thread"
     return render_template('profile.html', id = id)
 
-@app.route('/loginIntoThread/<id>')
+@app.route('/loginIntoHome/<id>')
 def loginIntoThread(id):
-    print("thread works")
+    print("home works")
     address = "thread"
-    threadId = Posts.query.filter_by(user_id = id).first()
-    return render_template('thread.html', id = id, threadId = threadId.numkey)
+    return render_template('home_feed.html', id = id)
+
+@app.route('/userOpenThread/<thread_id>/<user_id>/')
+def openThread(thread_id, user_id):
+    print(thread_id)
+    print(user_id)
+    return render_template('thread.html', id = user_id, threadId = thread_id)
 
 # Login logic
 @app.route('/login/<username>/<password>', methods=['GET'])
@@ -130,7 +135,11 @@ def posts_to_dicts(posts):
     output = []
     for post in posts:
         p = {}
+        p["id"] = post.numkey
         p["user_id"] = post.user_id
+        # Query user name
+        name = Users.query.filter_by(id=post.user_id).first().name
+        p["name"] = name
         p["post_header"] = post.post_header
         p["post_body"] = post.post_body
         p["time"] = formatTime(post.time)
@@ -166,6 +175,9 @@ def post_to_dict(post):
     p = {}
     p["id"] = post.numkey
     p["user_id"] = post.user_id
+    # Query user name
+    name = Users.query.filter_by(id=post.user_id).first().name
+    p["name"] = name
     p["post_header"] = post.post_header
     p["post_body"] = post.post_body
     p["post_pic"] = post.post_pic
@@ -224,7 +236,7 @@ def formatTime(time_created):
     delta = now - time_created
     time = ""
     # minutes ago
-    if int(delta.total_seconds() > 60):
+    if int(delta.total_seconds() > 60 and delta.total_seconds() < 3600):
         time = int(delta.total_seconds() / 60)
         return f"{time} minutes ago"
     # hours ago
@@ -238,6 +250,42 @@ def formatTime(time_created):
     # just now
     else:
         return "just now!"
+    
+""" Load Home Page with all Posts """
+@app.route('/home/<user_id>', methods=['GET'])
+def loadPosts(user_id):
+    # Query all posts
+    home_posts = Posts.query.all()
+    # Return data to generate home page
+    return posts_to_dicts(home_posts)
+
+""" Open Create Thread Page """
+@app.route('/createThread/<user_id>')
+def openCreateThread(user_id):
+    return render_template("create_thread.html", id = user_id)
+
+""" Upload Photo and Create Post """
+@app.route('/upload', methods=['POST'])
+def createPost():
+    # Handle Photo
+    if 'file' not in request.files:
+        print("No file found in request")
+    else:
+        file = request.files['file']
+        file_name = 'static/images/' + request.form['pic_name']
+        file.save(file_name)
+        print("File saved successfully")
+
+    # Query last post for numkey and create new Post
+    all_posts = Posts.query.all()
+    last_post = all_posts[-1] 
+    new_post = Posts(last_post.numkey+1, request.form['user_id'], request.form['header'], request.form['body'], request.form['pic_name'])
+    db.session.add(new_post)
+    db.session.commit()
+    # Return url for new post
+    route = '/userOpenThread/'+ str(last_post.numkey+1) + '/' + str(request.form['user_id'])
+    return route
+    
 
 # outside main because it doesnt load on Erick's computer
 admin = Admin(app)

@@ -23,9 +23,7 @@ function likeComment(button, comment_id, user_id) {
 }
 
 // Post a New Comment
-function postComment() {
-  thread_id = 102;
-  user_id = 10;
+function postComment(user_id, thread_id) {
   var new_comment = new FormData(document.getElementById("post-comment"));
   var comment_body = new_comment.get("comment-text");
   const body = {"comment_body": comment_body};
@@ -63,22 +61,24 @@ function createThread(data) {
   let comments = data[2];
   console.log(post.post_header)
 
-    let thread = '<div>';
+    let thread = '<div><center>';
       // Original Post
       thread +=`<div class="post">
       <h1>${post.post_header}</h1>`;
       if(post.post_pic != "") {
-        thread += `<img src=${post.post_pic}></img>`;
+        console.log(post.post_pic);
+        thread += `<img src=/static/images/${post.post_pic}></img>`;
       }
-      thread += `<p>Asked ${post.time}</p>`;
       thread += `<p>${post.post_body}</p>`;
+      thread += `<p>Asked by: ${post.name} | ${post.time}</p>`;
+      
 
       // Post A Comment
       thread += `
         <form id="post-comment">
         <p>Comment as: <span id="comment-username">${user.name}</span></p>
           <textarea name="comment-text" id="new-comment" cols="50" rows="5"></textarea>
-          <button type="submit" id="post-button" onclick="postComment()">POST</button>
+          <button type="submit" id="post-button" onclick="postComment(${user.id}, ${post.id})">POST</button>
         </form>`;
       thread += `<div>`
 
@@ -101,6 +101,6 @@ function createThread(data) {
         </div>`;
       });
 
-      thread += '</div>'
+      thread += '</center></div>'
       document.getElementById("thread").innerHTML = thread;
 }

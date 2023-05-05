@@ -4,7 +4,7 @@ function auth_login() {
 	username=document.getElementById("email").value
   password = document.getElementById("password").value
 	var xhttp = new XMLHttpRequest();
-	console.log(BASE+'/'+username+'/'+password)
+	console.log(BASE+'/'+username+'/'+password);
   xhttp.open("GET", BASE+'/login/'+username+'/'+password);
   xhttp.onload = function() {
      let data = this.responseText;
@@ -16,7 +16,7 @@ function auth_login() {
 	   }
      //this is to open users thread page
      else{
-		    document.loggedin.action = BASE+'/loginIntoThread/'+data
+		    document.loggedin.action = BASE+'/loginIntoHome/'+data
         // window.alert(document.loggedin.action)
 		    document.loggedin.submit();
 	   }
