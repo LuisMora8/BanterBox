@@ -20,11 +20,11 @@ function postThread(user_id) {
   file.append('body', body);
   file.append('pic_name', pic_name);
   // Post and Open new thread
-  userurl = BASE + "/upload";
+  userurl = "/upload";
   xhttp.open("POST", userurl);
   xhttp.onload = function() {
     let data = this.responseText;
-    userurl = BASE+data;
+    userurl = data;
 		goToThread(userurl);
   };
   xhttp.send(file);
