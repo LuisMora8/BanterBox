@@ -5,7 +5,7 @@ var userurl = ""
 function likeComment(button, comment_id, user_id) {
   var xhttp = new XMLHttpRequest();
   const body = {"comment_id": comment_id, "user_id": user_id};
-  userurl = BASE + "/like-comment";
+  userurl = "/like-comment";
 
   if(button.id == "liked") {
     button.id = "like";
@@ -28,7 +28,7 @@ function postComment(user_id, thread_id) {
   var comment_body = new_comment.get("comment-text");
   const body = {"comment_body": comment_body};
   var xhttp = new XMLHttpRequest();
-  userurl = BASE + "/" + "thread" + thread_id + "/" + user_id;
+  userurl = "/" + "thread" + thread_id + "/" + user_id;
   xhttp.open("POST", userurl);
   xhttp.setRequestHeader("Content-Type", "application/json");
   xhttp.onload = function() {
@@ -42,7 +42,7 @@ function displayThread(id,threadId) {
   thread_id = threadId
   user_id = id
   var xhttp = new XMLHttpRequest();
-  userurl = BASE + "/" + "thread" + thread_id + "/" + user_id;
+  userurl = "/" + "thread" + thread_id + "/" + user_id;
   xhttp.open("GET", userurl);
   xhttp.onload = function() {
     let data = JSON.parse(this.responseText);

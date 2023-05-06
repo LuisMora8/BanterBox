@@ -2,20 +2,20 @@ let BASE = "banter-box.herokuapp.com";
 var userurl = ""
 
 function createThread(user_id) {
-  userurl = BASE+"/createThread/"+user_id;
+  userurl = "/createThread/"+user_id;
   console.log(userurl);
   window.location.href = userurl;
 }
 
 function goToThread(thread_id, user_id) {
-  userurl = BASE+"/userOpenThread/"+thread_id+"/"+user_id+"/";
+  userurl = "/userOpenThread/"+thread_id+"/"+user_id+"/";
   console.log(userurl);
   window.location.href = userurl;
 }
 
 function displayProfile(userid) {
   var xhttp = new XMLHttpRequest();
-  userurl += BASE + "/" + userid;
+  userurl += "/" + userid;
   xhttp.open("GET", userurl+"/profile/");
   xhttp.onload = function() {
     let data = JSON.parse(this.responseText);
