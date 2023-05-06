@@ -7,6 +7,9 @@ from flask_admin.contrib.sqla import ModelView
 from wtforms.widgets import TextArea
 
 from datetime import datetime
+import hashlib
+import string
+import secrets
 
 # app = Flask(__name__)
 
@@ -72,24 +75,77 @@ def openThread(thread_id, user_id):
     print(user_id)
     return render_template('thread.html', id = user_id, threadId = thread_id)
 
+@app.route('/signin')
+def signin():
+    # print(thread_id)
+    # print(user_id)
+    return render_template('signIn.html')
+
+# signin logic
+@app.route('/signinUser', methods=['POST'])
+def signUp():
+    all_users = Users.query.all()
+    last_UserId = all_users[-1]
+
+    if 'file' not in request.files:
+        print("No file found in request")
+    else:
+        file = request.files['file']
+        file_name = 'static/images/' + request.form['pic_name']
+        file.save(file_name)
+        print("File saved successfully")
+
+    # new_post = Posts(last_post.numkey+1, request.form['user_id'], request.form['header'], request.form['body'], request.form['pic_name'])
+    # db.session.add(new_post)
+    # db.session.commit()
+    
+    password = request.form['password']
+    # Generate a random salt
+    alphabet = string.ascii_letters + string.digits
+    salt = ''.join(secrets.choice(alphabet) for i in range(16))
+    # Concatenate the salt and password
+    salted_password = salt + password
+    # Hash the encoded salted password using SHA-256
+    hashed_password = hashlib.sha256(salted_password.encode('utf-8')).hexdigest()
+    hashed_password = "$"+salt +"$"+ hashed_password
+
+    userSignAdd = Users(last_UserId.id+1 , request.form['name'],request.form['email'], hashed_password, request.form['pic_name'] )
+    db.session.add(userSignAdd)
+    db.session.commit()
+
+    # populate tables
+    loginSignAdd =  Login(request.form['email'],hashed_password,role = "User")
+    db.session.add(loginSignAdd)
+    db.session.commit()
+
+    # populate tables
+    loginSignAdd =  Login(request.form['email'],request.form['password'],role = "User")
+    db.session.add(loginSignAdd)
+    db.session.commit()       
+                
+    return render_template('login.html')
+
 # Login logic
-@app.route('/login/<username>/<password>', methods=['GET'])
-def student(username,password):
+@app.route('/login/', methods=['GET', 'POST'])
+def student():
+    username = request.form['username']
+    password = request.form['password']
     user = Login.query.filter_by(username=username).first()
     Userid = Users.query.filter_by(email = username).first()
-    if(request.method == 'GET'):
+    if(request.method == 'POST'):
         address = BASE+'/'+user.role+'/'+user.password
         print(address)
         if user.role == 'User':
             passCheck = str(user.password)
             password =  str(password)
-            print(username)
-            print(password)
-            print(passCheck)
             print("this is user")
-            if(password == passCheck):
+            #gets password from database
+            checkPasswordHash = passCheck.split("$")
+            #checkPassHash = [NUll,salt,salt+pass]
+            checkHashPass = checkPasswordHash[1]+password
+            hashed_password = hashlib.sha256(checkHashPass.encode('utf-8')).hexdigest()
+            if(hashed_password == checkPasswordHash[2]):
                 id = str(Userid.id)
-                
                 print("password is correct")
                 # redirect to user page
                 return id
@@ -98,12 +154,16 @@ def student(username,password):
         elif user.role == 'admin':
             passCheck = str(user.password)
             password =  str(password)
-            print(password)
-            print(passCheck)
-            if(password == passCheck):
-                return password
-                # redirect to Flask-Admin dashboard
-                # return redirect(url_for('admin.index'))
+            print("this is admin")
+            #gets password from database
+            checkPasswordHash = passCheck.split("$")
+            #checkPassHash = [NUll,salt,salt+pass]
+            checkHashPass = checkPasswordHash[1]+password
+            hashed_password = hashlib.sha256(checkHashPass.encode('utf-8')).hexdigest()
+            if(hashed_password == checkPasswordHash[2]):
+                print("password is correct")
+                # redirect to user page
+                return "success"
             
                 
     return render_template('login.html')

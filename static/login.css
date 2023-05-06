@@ -120,3 +120,52 @@ header {
     .post a:hover {
         text-decoration: underline;
     }
+
+    .signUp_form{
+        padding: 20px 40px;
+        align-items: center;
+      }
+      .signUp_form .font{
+        font-size: 18px;
+        color: #130f40;
+        margin: 5px 0;
+      }
+      .signUp_form input{
+        height: 40px;
+        width: 350px;
+        padding: 0px 15px;
+        font-size: 18px;
+        outline: none;
+        border: 1px solid silver;
+        align-items: center;
+      
+      }
+      
+      .signUp_form input{
+        margin: 5px 0 20px 0;
+        height: 45px;
+        width: 365px;
+        font-size: 20px;
+        color: black;
+        outline: none;
+        cursor: pointer;
+        font-weight: bold;
+        text-align: center;
+        background: white;
+        border-radius: 3px;
+        border: 1px solid #3949AB;
+        transition: .5s;
+      }
+      .signUp_form #email_error,
+      .signUp_form #pass_error{
+        margin-top: 5px;
+        width: 345px;
+        font-size: 18px;
+        color: #C62828;
+        background: rgba(255,0,0,0.1);
+        text-align: center;
+        padding: 5px 8px;
+        border-radius: 3px;
+        border: 1px solid #EF9A9A;
+        display: none;
+      }
