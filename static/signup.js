@@ -24,7 +24,7 @@ function signUp() {
   xhttp.open("POST", userurl);
   xhttp.onload = function() {
     let data = this.responseText;
-    userurl = BASE+"/";
+    userurl = "/";
 		goToThread(userurl);
   };
   xhttp.send(file);
