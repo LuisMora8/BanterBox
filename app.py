@@ -7,6 +7,8 @@ from flask_admin.contrib.sqla import ModelView
 from wtforms.widgets import TextArea
 
 from datetime import datetime
+import hashlib
+import os
 
 # app = Flask(__name__)
 
@@ -96,8 +98,26 @@ def signUp():
     # db.session.add(new_post)
     # db.session.commit()
     
-    userSignAdd = Users(last_UserId.id+1 , request.form['name'],request.form['email'], request.form['password'], request.form['pic_name'] )
+    password = request.form['password']
+    # Generate a random salt
+    # salt = "abdc321"
+    salt = os.urandom(16)
+    # Concatenate the salt and password
+    salted_password = salt + password
+    # Hash the salted password using SHA-256
+    hashed_password = hashlib.sha256(salted_password).hexdigest()
+    hashed_password = "$"+salt +"$"+ hashed_password
+    # Print the salt and hashed password
+    print("Salt:", salt.hex())
+    print("Hashed password:", hashed_password)
+
+    userSignAdd = Users(last_UserId.id+1 , request.form['name'],request.form['email'], hashed_password, request.form['pic_name'] )
     db.session.add(userSignAdd)
+    db.session.commit()
+
+    # populate tables
+    loginSignAdd =  Login(request.form['email'],hashed_password,role = "User")
+    db.session.add(loginSignAdd)
     db.session.commit()
 
     # populate tables
@@ -122,9 +142,13 @@ def student(username,password):
             print(password)
             print(passCheck)
             print("this is user")
-            if(password == passCheck):
+            #gets password from database
+            checkPasswordHash = passCheck.split("$")
+            #checkPassHash = [NUll,salt,salt+pass]
+            checkHashPass = checkPasswordHash[1]+password
+            hashed_password = hashlib.sha256(checkHashPass).hexdigest()
+            if(hashed_password == passCheck):
                 id = str(Userid.id)
-                
                 print("password is correct")
                 # redirect to user page
                 return id
