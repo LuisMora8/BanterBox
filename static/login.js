@@ -1,15 +1,16 @@
 let BASE = "banter-box.herokuapp.com";
 
 function auth_login() {
-	username=document.getElementById("email").value
-  password = document.getElementById("password").value
+  const file = new FormData();
+	file.append('username', document.getElementById("email").value);
+  file.append('password', document.getElementById("password").value);
 	var xhttp = new XMLHttpRequest();
-	console.log('/'+username+'/'+password);
-  xhttp.open("GET", '/login/'+username+'/'+password);
+	//console.log('/'+username+'/'+password);
+  xhttp.open("POST", '/login/');
   xhttp.onload = function() {
      let data = this.responseText;
 
-     if(username=='admin' && data == password){
+     if(document.getElementById("email").value=='admin' && data == "success"){
       // window.alert(data)
 		    document.loggedin.action = '/admin/'
 		    document.loggedin.submit();
@@ -22,5 +23,7 @@ function auth_login() {
 	   }
 		
   };
-  xhttp.send();
+  console.log(file)
+  xhttp.send(file);
 }
+
