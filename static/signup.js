@@ -1,16 +1,16 @@
 let BASE = "http://127.0.0.1:5000";
 // let BASE = "https://erick202.pythonanywhere.com/"
 function signUp() {
-	username=document.getElementById("email").value
-  password = document.getElementById("password").value
-  let name = document.new_post.name.value;
+	username = document.loggedin.email.value;
+  password = document.loggedin.password.value;
+  let name = document.loggedin.name.value;
   var pic_name = "";
   const file = new FormData();
   var xhttp = new XMLHttpRequest();
   // Get Photo
   try {
-    pic_name = document.new_post.avatar.files[0].name;
-    file.append('file', document.new_post.avatar.files[0]) ;
+    pic_name = document.loggedin.avatar.files[0].name;
+    file.append('file', document.loggedin.avatar.files[0]);
     
   } catch(error) {
     console.log("no photo uploaded")
@@ -24,7 +24,7 @@ function signUp() {
   xhttp.open("POST", userurl);
   xhttp.onload = function() {
     let data = this.responseText;
-    userurl = BASE+"/login";
+    userurl = BASE+"/";
 		goToThread(userurl);
   };
   xhttp.send(file);

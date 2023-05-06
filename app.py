@@ -7,8 +7,7 @@ from flask_admin.contrib.sqla import ModelView
 from wtforms.widgets import TextArea
 
 from datetime import datetime
-from flask_bcrypt import Bcrypt
-bcrypt = Bcrypt(app)
+
 # app = Flask(__name__)
 
 BASE = "http://127.0.0.1:5000"
@@ -55,6 +54,7 @@ class LikesView(ModelView):
 def loginIntoProfile(id):
     print("profile works")
     address = "thread"
+    print(id)
     return render_template('profile.html', id = id)
 
 @app.route('/loginIntoHome/<id>')
@@ -77,7 +77,7 @@ def signin():
 
 
 # signin logic
-@app.route('/signinUser', methods=['GET'])
+@app.route('/signinUser', methods=['POST'])
 def signUp():
     all_users = Users.query.all()
     last_UserId = all_users[-1]
@@ -99,7 +99,7 @@ def signUp():
     db.session.commit()
 
     # populate tables
-    loginSignAdd =  Login(request.form['email'],request.form['password'],role = "user")
+    loginSignAdd =  Login(request.form['email'],request.form['password'],role = "User")
     db.session.add(loginSignAdd)
     db.session.commit()       
                 

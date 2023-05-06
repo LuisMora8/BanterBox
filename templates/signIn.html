@@ -14,11 +14,12 @@
         <h1>Banter Box</h1>
     </header>
 
-  <center> <form action="url" class="container" name="loggedin">
-        <h1 class="label">Sign up</h1>
-        <div class="signUp_form">
+  <center> 
+    <form class="container" name="loggedin">
+            <h1 class="label">Sign up</h1>
+            <div class="signUp_form">
             <div class="font">Username</div>
-            <input autocomplete="on" type="text" name ="email" id="email">
+            <input type="text" name ="email" id="email">
             <div id="email_error">Please fill Username</div>
             <div class="font font2">Password</div>
             <input type="password" name="password" id = "password">
@@ -27,12 +28,11 @@
             <input type="input" name="name" id = "name">
             <label for="avatar">UPLOAD A PICTURE: (PNG/JPEG) </label>
             <input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg">
-            <input type="button" value="Login" class="submit-btn" onclick= "signUp()" />
-
-
+            <input type="button" value="Login" class="submit-btn" onclick="signUp()" />
+            </div>
             <!-- need to create auth_login() func for banter box -->
-    </form> </center>
-    </div>
+    </form>
+ </center>
 </body>
 
 <!-- <footer>

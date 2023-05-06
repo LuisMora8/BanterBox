@@ -37,17 +37,21 @@ def student_schedule():
     # db.session.commit()
 
     # populate tables
-    # loginAdd =  Login('erickvargas@gmail.com','pass123','User')
-    # db.session.add(loginAdd)
-    # db.session.commit()
+    loginAdd =  Login('erickvargas@gmail.com','pass123','User')
+    db.session.add(loginAdd)
+    db.session.commit()
 
-    # loginAdd2 =  Login('abelGetachew@gmail.com','pass456','User')
-    # db.session.add(loginAdd2)
-    # db.session.commit()
+    loginAdd2 =  Login('abelGetachew@gmail.com','pass456','User')
+    db.session.add(loginAdd2)
+    db.session.commit()
 
-    # loginAdd3 =  Login('admin','password1','admin')
-    # db.session.add(loginAdd3)
-    # db.session.commit()
+    loginAdd4 =  Login('luismora@gmail.com','pass456','User')
+    db.session.add(loginAdd4)
+    db.session.commit()
+
+    loginAdd3 =  Login('admin','password1','admin')
+    db.session.add(loginAdd3)
+    db.session.commit()
 
    
 
@@ -103,9 +107,9 @@ def student_schedule():
     
 
 if __name__ == '__main__':
-    # with app.app_context():
+     with app.app_context():
         # db.drop_all()
-        # db.create_all()
-    student_schedule()
+        db.create_all()
+        student_schedule()
     # app.run(debug=True)
     
