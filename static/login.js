@@ -1,5 +1,5 @@
 let BASE = "http://127.0.0.1:5000";
-
+// let BASE = "https://erick202.pythonanywhere.com/"
 function auth_login() {
 	username=document.getElementById("email").value
   password = document.getElementById("password").value
@@ -14,7 +14,7 @@ function auth_login() {
 		    document.loggedin.action = BASE+'/admin/'
 		    document.loggedin.submit();
 	   }
-     //this is to open users thread page
+     //this is t0o open users thread page
      else{
 		    document.loggedin.action = BASE+'/loginIntoHome/'+data
         // window.alert(document.loggedin.action)

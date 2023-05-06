@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="{{ url_for('static',filename='profile.css') }}">
     <script src="{{ url_for('static',filename='profile.js') }}"></script>
   </head>
-  <body onload="displayProfile({{id}})">
+  <body onload="displayProfile({id})">
     <!-- Navigation Bar -->
     <ul>
       <li><a href="http://127.0.0.1:5000/loginIntoHome/{{id}}">Home</a></li>

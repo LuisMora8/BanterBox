@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <title>Banter box login page </title>
     <link rel="stylesheet" href="{{ url_for('static',filename='login.css') }}">
-    <script src="{{ url_for('static',filename='login.js') }}"></script>
+    <script src="{{ url_for('static',filename='signup.js') }}"></script>
 </head>
 <body>
 
@@ -15,26 +15,29 @@
     </header>
 
   <center> <form action="url" class="container" name="loggedin">
-        <h1 class="label">Login</h1>
-        <div class="login_form">
+        <h1 class="label">Sign up</h1>
+        <div class="signUp_form">
             <div class="font">Username</div>
             <input autocomplete="on" type="text" name ="email" id="email">
             <div id="email_error">Please fill Username</div>
             <div class="font font2">Password</div>
             <input type="password" name="password" id = "password">
             <div id="pass_error">Please fill up your Password</div>
-            <input type="button" value="Login" class="submit-btn" onclick="auth_login()" />
-            <!-- <input type="button" value="signup" class="signUp"   /> -->
-            <input type="button" value="signup" class="signUp" onclick= "location.href='http://127.0.0.1:5000/signin'" />
+            <div class="font font2">name</div>
+            <input type="input" name="name" id = "name">
+            <label for="avatar">UPLOAD A PICTURE: (PNG/JPEG) </label>
+            <input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg">
+            <input type="button" value="Login" class="submit-btn" onclick= "signUp()" />
+
 
             <!-- need to create auth_login() func for banter box -->
     </form> </center>
     </div>
 </body>
 
-<footer>
+<!-- <footer>
     <p> CSE 106 Final Project by: Luis, Erick, Abel </p>
-</footer>
+</footer> -->
 
 
 </html>
