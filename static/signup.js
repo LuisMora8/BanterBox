@@ -20,7 +20,7 @@ function signUp() {
   file.append('password',password)
   file.append('pic_name', pic_name);
   // Post and Open new thread
-  userurl = BASE + "/signinUser";
+  userurl = "/signinUser";
   xhttp.open("POST", userurl);
   xhttp.onload = function() {
     let data = this.responseText;
