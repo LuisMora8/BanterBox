@@ -72,6 +72,41 @@ def openThread(thread_id, user_id):
     print(user_id)
     return render_template('thread.html', id = user_id, threadId = thread_id)
 
+@app.route('/signin')
+def signin():
+    # print(thread_id)
+    # print(user_id)
+    return render_template('signIn.html')
+
+# signin logic
+@app.route('/signinUser', methods=['POST'])
+def signUp():
+    all_users = Users.query.all()
+    last_UserId = all_users[-1]
+
+    if 'file' not in request.files:
+        print("No file found in request")
+    else:
+        file = request.files['file']
+        file_name = 'static/images/' + request.form['pic_name']
+        file.save(file_name)
+        print("File saved successfully")
+
+    # new_post = Posts(last_post.numkey+1, request.form['user_id'], request.form['header'], request.form['body'], request.form['pic_name'])
+    # db.session.add(new_post)
+    # db.session.commit()
+    
+    userSignAdd = Users(last_UserId.id+1 , request.form['name'],request.form['email'], request.form['password'], request.form['pic_name'] )
+    db.session.add(userSignAdd)
+    db.session.commit()
+
+    # populate tables
+    loginSignAdd =  Login(request.form['email'],request.form['password'],role = "User")
+    db.session.add(loginSignAdd)
+    db.session.commit()       
+                
+    return render_template('login.html')
+
 # Login logic
 @app.route('/login/<username>/<password>', methods=['GET'])
 def student(username,password):
